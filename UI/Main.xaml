@@ -1,0 +1,163 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Name="Shell" Title="Velora Disk" Width="1130" Height="760" MinWidth="820" MinHeight="560"
+        WindowStartupLocation="CenterScreen" Background="#F6F7F3" FontFamily="Inter, Segoe UI" FontSize="14"
+        Foreground="#1E302B" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display">
+  <Window.Resources>
+    <SolidColorBrush x:Key="Ink" Color="#1E302B"/>
+    <SolidColorBrush x:Key="Subtle" Color="#4E625A"/>
+    <SolidColorBrush x:Key="Line" Color="#D6DFD8"/>
+    <SolidColorBrush x:Key="Accent" Color="#20674F"/>
+    <Style TargetType="Button">
+      <Setter Property="Background" Value="White"/><Setter Property="Foreground" Value="{StaticResource Ink}"/>
+      <Setter Property="BorderBrush" Value="{StaticResource Line}"/><Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="MinHeight" Value="34"/><Setter Property="Padding" Value="12,5"/>
+      <Setter Property="Cursor" Value="Hand"/><Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+        <Grid><Border x:Name="Frame" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6"/>
+          <Border x:Name="Highlight" Background="Transparent" CornerRadius="6"/>
+          <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="Center" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+          <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Highlight" Property="Background" Value="#170F4636"/></Trigger>
+          <Trigger Property="IsPressed" Value="True"><Setter TargetName="Highlight" Property="Background" Value="#2C0F4636"/></Trigger>
+          <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Frame" Property="BorderBrush" Value="#C97B23"/><Setter TargetName="Frame" Property="BorderThickness" Value="2"/></Trigger>
+          <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.47"/></Trigger>
+        </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+    </Style>
+    <Style x:Key="Primary" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Background" Value="#20674F"/><Setter Property="Foreground" Value="White"/><Setter Property="BorderBrush" Value="#20674F"/>
+    </Style>
+    <Style x:Key="Nav" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="#E8F1E8"/><Setter Property="BorderBrush" Value="Transparent"/>
+      <Setter Property="HorizontalContentAlignment" Value="Left"/><Setter Property="MinHeight" Value="42"/>
+      <Setter Property="Padding" Value="12,6"/>
+    </Style>
+    <Style TargetType="TextBox">
+      <Setter Property="MinHeight" Value="34"/><Setter Property="Padding" Value="8,4"/><Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="Foreground" Value="{StaticResource Ink}"/><Setter Property="BorderBrush" Value="{StaticResource Line}"/>
+    </Style>
+    <Style TargetType="ComboBox"><Setter Property="MinHeight" Value="33"/><Setter Property="Padding" Value="7,4"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/><Setter Property="Foreground" Value="{StaticResource Ink}"/>
+    </Style>
+    <Style TargetType="DataGrid">
+      <Setter Property="AutoGenerateColumns" Value="False"/><Setter Property="IsReadOnly" Value="True"/>
+      <Setter Property="CanUserAddRows" Value="False"/><Setter Property="CanUserDeleteRows" Value="False"/>
+      <Setter Property="CanUserReorderColumns" Value="False"/><Setter Property="HeadersVisibility" Value="Column"/>
+      <Setter Property="BorderThickness" Value="0"/><Setter Property="GridLinesVisibility" Value="Horizontal"/>
+      <Setter Property="HorizontalGridLinesBrush" Value="#E6EAE4"/><Setter Property="Background" Value="White"/>
+      <Setter Property="RowBackground" Value="White"/><Setter Property="AlternatingRowBackground" Value="#F9FAF7"/>
+      <Setter Property="SelectionMode" Value="Single"/><Setter Property="SelectionUnit" Value="FullRow"/>
+      <Setter Property="RowHeight" Value="35"/><Setter Property="ColumnHeaderHeight" Value="32"/>
+      <Setter Property="EnableRowVirtualization" Value="True"/><Setter Property="EnableColumnVirtualization" Value="True"/>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+      <Setter Property="FontSize" Value="12"/><Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Padding" Value="9,3"/><Setter Property="Background" Value="#EFF3EE"/><Setter Property="Foreground" Value="#40594C"/>
+      <Setter Property="BorderThickness" Value="0,0,1,1"/><Setter Property="BorderBrush" Value="#DAE2DA"/>
+    </Style>
+    <Style TargetType="DataGridCell"><Setter Property="Padding" Value="7,0"/><Setter Property="BorderThickness" Value="0"/>
+      <Style.Triggers><Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="#D8EADF"/><Setter Property="Foreground" Value="#143A2B"/></Trigger></Style.Triggers>
+    </Style>
+    <Style x:Key="CellText" TargetType="TextBlock"><Setter Property="Margin" Value="8,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/><Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+      <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=Text}"/></Style>
+    <Style x:Key="Card" TargetType="Border"><Setter Property="Background" Value="White"/>
+      <Setter Property="BorderThickness" Value="1"/><Setter Property="BorderBrush" Value="{StaticResource Line}"/><Setter Property="CornerRadius" Value="9"/></Style>
+    <Style x:Key="MetricLabel" TargetType="TextBlock"><Setter Property="Foreground" Value="{StaticResource Subtle}"/><Setter Property="FontSize" Value="12"/><Setter Property="TextWrapping" Value="Wrap"/></Style>
+    <Style x:Key="MetricValue" TargetType="TextBlock"><Setter Property="FontSize" Value="23"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Margin" Value="0,2,0,0"/></Style>
+    <Style x:Key="Caption" TargetType="TextBlock"><Setter Property="Foreground" Value="{StaticResource Subtle}"/><Setter Property="FontSize" Value="13"/><Setter Property="TextWrapping" Value="Wrap"/></Style>
+  </Window.Resources>
+  <Grid Background="#F6F7F3"><Grid.ColumnDefinitions><ColumnDefinition Width="192"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+    <Border Background="#18392E"><Grid Margin="13,25,13,18"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal" Margin="4,0,0,27">
+        <Image Name="BrandIcon" Width="34" Height="34" Margin="0,0,8,0"/>
+        <TextBlock Text="Velora Disk" FontFamily="Inter, Segoe UI" FontSize="18" FontWeight="SemiBold" Foreground="#F1F6EA" VerticalAlignment="Center"/>
+      </StackPanel>
+      <StackPanel Grid.Row="1">
+        <Button Name="NavFiles" Style="{StaticResource Nav}"><StackPanel Orientation="Horizontal"><TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8B7;" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/><TextBlock Name="NavFilesText" Tag="Large files|Крупные файлы"/></StackPanel></Button>
+        <Button Name="NavApps" Style="{StaticResource Nav}" Margin="0,5,0,0"><StackPanel Orientation="Horizontal"><TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xECAA;" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/><TextBlock Tag="Applications|Программы"/></StackPanel></Button>
+      </StackPanel>
+      <Button Name="NavSettings" Grid.Row="3" Style="{StaticResource Nav}"><StackPanel Orientation="Horizontal"><TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE713;" FontSize="16" VerticalAlignment="Center" Margin="0,0,10,0"/><TextBlock Tag="Settings|Настройки"/></StackPanel></Button>
+    </Grid></Border>
+    <Grid Grid.Column="1" Margin="22,17,22,15"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <StackPanel Margin="0,0,0,15"><TextBlock Name="TitleText" FontSize="30" FontWeight="SemiBold"/>
+        <TextBlock Name="Subtitle" Style="{StaticResource Caption}" Margin="1,2,0,0"/></StackPanel>
+      <Grid Name="FilesPage" Grid.Row="1"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <Border Style="{StaticResource Card}" Padding="13,10"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <ComboBox Name="Scope" Margin="0,0,8,0" MaxDropDownHeight="275"/>
+          <Button Name="ChooseFolder" Grid.Column="1" Tag="Folder…|Папка…" Margin="0,0,8,0"/>
+          <Button Name="ScanButton" Grid.Column="2" Style="{StaticResource Primary}" MinWidth="100"/>
+          <ProgressBar Name="ScanBar" Grid.Row="1" Grid.ColumnSpan="3" Height="3" Margin="0,8,0,0" Foreground="#31916D" Visibility="Collapsed"/>
+        </Grid></Border>
+        <UniformGrid Columns="3" Grid.Row="1" Margin="0,10,0,10">
+          <Border Style="{StaticResource Card}" Padding="12,7" Margin="0,0,4,0"><StackPanel><TextBlock Name="Metric1Label" Style="{StaticResource MetricLabel}" Tag="Files examined|Файлов проверено"/><TextBlock Name="Metric1" Style="{StaticResource MetricValue}"/></StackPanel></Border>
+          <Border Style="{StaticResource Card}" Padding="12,7" Margin="4,0,4,0"><StackPanel><TextBlock Name="Metric2Label" Style="{StaticResource MetricLabel}" Tag="Data examined|Объём проверен"/><TextBlock Name="Metric2" Style="{StaticResource MetricValue}"/></StackPanel></Border>
+          <Border Style="{StaticResource Card}" Padding="12,7" Margin="4,0,0,0"><StackPanel><TextBlock Name="Metric3Label" Style="{StaticResource MetricLabel}" Tag="Large files found|Крупных файлов"/><TextBlock Name="Metric3" Style="{StaticResource MetricValue}"/></StackPanel></Border>
+        </UniformGrid>
+        <Border Style="{StaticResource Card}" Grid.Row="2" ClipToBounds="True"><Grid>
+          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <Grid Margin="12,8"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="155"/></Grid.ColumnDefinitions>
+            <TextBlock Name="FileListTitle" FontSize="17" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            <TextBlock Name="FileFilterLabel" Grid.Column="1" Tag="Filter|Фильтр" Margin="4,0,7,0" VerticalAlignment="Center"/>
+            <TextBox Name="FileFilter" Grid.Column="2"/>
+          </Grid>
+          <Grid Grid.Row="1"><DataGrid Name="FilesGrid"/><TextBlock Name="FilesEmpty" IsHitTestVisible="False" FontSize="15" Foreground="{StaticResource Subtle}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="20,35,20,5"/></Grid>
+          <Border Grid.Row="2" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="10,7">
+            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+              <TextBlock Name="FileSelection" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource Subtle}" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+              <Button Name="LocateButton" Grid.Column="1" Tag="Show in folder|Показать в папке" Margin="0,0,7,0"/>
+              <Button Name="RecycleButton" Grid.Column="2" Tag="Move to Recycle Bin|В корзину" Foreground="#873E2E"/>
+            </Grid>
+          </Border>
+        </Grid></Border>
+      </Grid>
+      <Grid Name="AppsPage" Grid.Row="1" Visibility="Collapsed"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <Border Style="{StaticResource Card}" Padding="12,10" Margin="0,0,0,10"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+          <TextBlock Name="AppsSummary" Style="{StaticResource Caption}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+          <Button Name="WindowsAppsButton" Grid.Column="1" Tag="Windows apps settings|Программы в Windows" Margin="0,0,8,0"/>
+          <Button Name="RefreshApps" Grid.Column="2" Tag="Refresh|Обновить"/>
+        </Grid></Border>
+        <Border Style="{StaticResource Card}" Grid.Row="1"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <Grid Margin="12,8"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="155"/></Grid.ColumnDefinitions>
+            <TextBlock Name="AppsListTitle" Tag="Installed applications|Установленные программы" FontSize="17" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+            <TextBlock Name="AppFilterLabel" Grid.Column="1" Tag="Filter|Фильтр" Margin="4,0,7,0" VerticalAlignment="Center"/><TextBox Name="AppFilter" Grid.Column="2"/>
+          </Grid>
+          <Grid Grid.Row="1"><DataGrid Name="AppsGrid"/><TextBlock Name="AppsEmpty" IsHitTestVisible="False" FontSize="15" Foreground="{StaticResource Subtle}" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="20,35,20,5"/></Grid>
+          <Border Grid.Row="2" BorderBrush="{StaticResource Line}" BorderThickness="0,1,0,0" Padding="10,7">
+            <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+              <TextBlock Name="AppSelection" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource Subtle}" TextTrimming="CharacterEllipsis" Margin="0,0,8,0"/>
+              <Button Name="UninstallButton" Grid.Column="1" Foreground="#873E2E"/>
+            </Grid>
+          </Border>
+        </Grid></Border>
+      </Grid>
+      <ScrollViewer Grid.Row="1" Name="SettingsPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+        <Border Style="{StaticResource Card}" VerticalAlignment="Top" Padding="18,6,18,10">
+          <StackPanel>
+            <Grid Margin="0,13"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="155"/></Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center" Margin="0,0,15,0"><TextBlock Tag="Interface language|Язык интерфейса" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Tag="Changes immediately.|Применяется сразу." Style="{StaticResource Caption}" Margin="0,3,0,0"/></StackPanel>
+              <ComboBox Name="LanguageBox" Grid.Column="1" VerticalAlignment="Center"><ComboBoxItem Content="English"/><ComboBoxItem Content="Русский"/></ComboBox>
+            </Grid><Separator Background="{StaticResource Line}"/>
+            <Grid Margin="0,13"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="155"/></Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center" Margin="0,0,15,0"><TextBlock Tag="Minimum file size|Минимальный размер" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Tag="Include files at least this large in the next scan.|При следующем поиске будут показаны файлы от этого размера." Style="{StaticResource Caption}" Margin="0,3,0,0"/></StackPanel>
+              <ComboBox Name="ThresholdBox" Grid.Column="1" VerticalAlignment="Center"/>
+            </Grid><Separator Background="{StaticResource Line}"/>
+            <Grid Margin="0,13"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="155"/></Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center" Margin="0,0,15,0"><TextBlock Tag="Maximum results|Лимит результатов" FontWeight="SemiBold" FontSize="16"/>
+                <TextBlock Tag="Keep this many of the largest files per scan.|Столько самых крупных файлов попадёт в список после поиска." Style="{StaticResource Caption}" Margin="0,3,0,0"/></StackPanel>
+              <ComboBox Name="LimitBox" Grid.Column="1" VerticalAlignment="Center"/>
+            </Grid>
+          </StackPanel>
+        </Border>
+      </ScrollViewer>
+      <TextBlock Name="Status" Grid.Row="2" Margin="1,9,0,0" Foreground="{StaticResource Subtle}" FontSize="12" TextWrapping="Wrap" MaxHeight="48" TextTrimming="CharacterEllipsis"/>
+    </Grid>
+  </Grid>
+</Window>

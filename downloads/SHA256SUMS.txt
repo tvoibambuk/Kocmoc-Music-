@@ -1,0 +1,2 @@
+c2f894828f0d554aef20de6775ffcd812957377eea70962b971639a7e2f89930  VeloraDisk-Setup.msi
+475c8feee2dcc2b02671c7dda4e5bb19cd82dc37e7de079e9ea489f04775add8  VeloraDisk.exe
