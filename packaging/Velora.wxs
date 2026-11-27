@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="{AC513280-127B-4EFE-B6BA-62E480D8A67B}" Name="Velora Disk" Language="1033"
+           Codepage="1252" Version="1.0.0" Manufacturer="Velora Disk" UpgradeCode="{207A0E56-5516-4DEA-878E-541DD5F859E7}">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perUser" InstallPrivileges="limited"
+             Description="Velora Disk for Windows"/>
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Velora Disk is already installed."/>
+    <MediaTemplate EmbedCab="yes"/>
+    <Icon Id="VeloraIcon" SourceFile="$(var.Icon)"/>
+    <Property Id="ARPPRODUCTICON" Value="VeloraIcon"/>
+    <Property Id="ARPNOMODIFY" Value="1"/>
+    <Property Id="ARPNOREPAIR" Value="1"/>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="UserPrograms" Name="Programs">
+          <Directory Id="INSTALLFOLDER" Name="Velora Disk">
+            <Component Id="DesktopApp" Guid="{13221413-FD57-40F2-9B47-9CFF154C0563}">
+              <File Id="VeloraExe" Source="$(var.Exe)" Name="VeloraDisk.exe">
+                <Shortcut Id="StartMenuLink" Directory="ProgramMenuFolder" Name="Velora Disk"
+                          WorkingDirectory="INSTALLFOLDER" Advertise="no" Icon="VeloraIcon"/>
+              </File>
+              <RegistryValue Root="HKCU" Key="Software\Velora Disk\Installer" Name="Version"
+                             Value="1.0.0" Type="string" KeyPath="yes"/>
+              <RemoveFolder Id="CleanAppFolder" On="uninstall"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder"/>
+    </Directory>
+    <Feature Id="MainFeature" Title="Velora Disk" Level="1"><ComponentRef Id="DesktopApp"/></Feature>
+    <UI>
+      <TextStyle Id="Normal" FaceName="Segoe UI" Size="9"/>
+      <TextStyle Id="Title" FaceName="Segoe UI" Size="15" Bold="yes"/>
+      <Property Id="DefaultUIFont" Value="Normal"/>
+      <Dialog Id="Welcome" Width="304" Height="150" Title="Velora Disk Setup">
+        <Control Id="AppName" Type="Text" X="20" Y="16" Width="264" Height="24" Transparent="yes" Text="{\Title}Velora Disk"/>
+        <Control Id="Description" Type="Text" X="20" Y="49" Width="264" Height="40" Text="Find large files and manage installed apps on this PC. Setup will add Velora Disk to your Start menu."/>
+        <Control Id="Line" Type="Line" X="0" Y="105" Width="304" Height="1"/>
+        <Control Id="InstallButton" Type="PushButton" X="147" Y="118" Width="65" Height="19" Default="yes" Text="Install">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="219" Y="118" Width="65" Height="19" Cancel="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit">1</Publish>
+        </Control>
+      </Dialog>
+      <Dialog Id="Maintenance" Width="304" Height="145" Title="Velora Disk Setup">
+        <Control Id="AppName" Type="Text" X="20" Y="16" Width="264" Height="24" Transparent="yes" Text="{\Title}Velora Disk"/>
+        <Control Id="Description" Type="Text" X="20" Y="50" Width="264" Height="40" Text="Velora Disk is installed. You can remove it from your Windows account."/>
+        <Control Id="RemoveButton" Type="PushButton" X="147" Y="115" Width="65" Height="19" Text="Remove">
+          <Publish Property="REMOVE" Value="ALL" Order="1">1</Publish>
+          <Publish Event="EndDialog" Value="Return" Order="2">1</Publish>
+        </Control>
+        <Control Id="CancelButton" Type="PushButton" X="219" Y="115" Width="65" Height="19" Cancel="yes" Default="yes" Text="Cancel">
+          <Publish Event="EndDialog" Value="Exit">1</Publish>
+        </Control>
+      </Dialog>
+      <DialogRef Id="ProgressDlg"/>
+      <DialogRef Id="ExitDialog"/>
+      <DialogRef Id="FatalError"/>
+      <DialogRef Id="UserExit"/>
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return">1</Publish>
+      <InstallUISequence>
+        <Show Dialog="Welcome" Before="ProgressDlg">NOT Installed AND NOT ACTION="ADMIN"</Show>
+        <Show Dialog="Maintenance" Before="ProgressDlg">Installed AND NOT ACTION="ADMIN"</Show>
+        <Show Dialog="ProgressDlg" Before="ExecuteAction">1</Show>
+      </InstallUISequence>
+    </UI>
+    <UIRef Id="WixUI_Common"/>
+  </Product>
+</Wix>
